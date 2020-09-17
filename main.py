@@ -49,7 +49,7 @@ class CosineSimilarity():
         for i in self.codes2:
             self.listoneHot2[i] += 1
 
-    def similar(self):
+    def compute(self):
         # 删除标点符号以及部分语气助词
         strs = [' ', '\n', '“', '，', '。', '《', '》', '：', '”', '、', '的', '了', '是', '说', '呀', '啦', '啊']
         for j in strs:
@@ -64,13 +64,13 @@ class CosineSimilarity():
         # 进行oneHot编码
         self.oneHot()
         # 余弦相似度计算
-        sum_ = 0
+        sum = 0
         for i in range(0, self.length):
-            sum_ += self.listoneHot1[i] * self.listoneHot2[i]
+            sum += self.listoneHot1[i] * self.listoneHot2[i]
         A = sqrt(reduce(lambda x, y: x + y, map(lambda x: x * x, self.listoneHot1)))
         B = sqrt(reduce(lambda x, y: x + y, map(lambda x: x * x, self.listoneHot2)))
         try:
-            result = sum_ / (A * B)
+            result = sum / (A * B)
             return result
         except Exception as e:
             print(e)
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     except:
         print("路径错误")
     s = CosineSimilarity(file1, file2, topK)
-    similarity = round(s.similar(), 2)
+    similarity = round(s.main(), 2)
     try:
         with open(ansPath, "w+", encoding='UTF-8') as fp:
             fp.write(str(similarity))
